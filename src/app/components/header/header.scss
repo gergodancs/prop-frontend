@@ -1,0 +1,48 @@
+.header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Ensure space between elements */
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  z-index: 1100;
+
+  .toggle-button {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    &:hover {
+      color: #007bff;
+    }
+  }
+
+  .auth-info {
+    display: flex;
+    align-items: center;
+
+    .logout-button {
+      margin-left: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      background-color: #f5f5f5;
+      &:hover {
+        background-color: #e0e0e0;
+      }
+    }
+  }
+
+  .auth-button {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+    &:hover {
+      background-color: #e0e0e0;
+    }
+  }
+}

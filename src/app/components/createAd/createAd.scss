@@ -1,0 +1,45 @@
+.create-ad-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.create-ad-container h2 {
+  margin-bottom: 20px;
+}
+
+.create-ad-container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.create-ad-container input {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.create-ad-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #0070f3;
+  color: white;
+  cursor: pointer;
+  &:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  color: red;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
