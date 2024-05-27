@@ -49,7 +49,7 @@
 
   button {
     text-align: left;
-    padding-left: 15px;
+
     cursor: pointer;
     color: #000;
     &:hover {
@@ -66,6 +66,19 @@
   }
 }
 .menu-item {
+  margin-left: 15px;
   display: flex;
   flex-direction: column;
+}
+
+.bottom-border {
+ justify-content: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.w-100 {
+  width: 100%;
+}
+.center{
+  text-align: center !important;
 }

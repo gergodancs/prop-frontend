@@ -7,6 +7,7 @@ import { AuthProvider } from "@/context/AuthContext";
 import { FlatProvider } from "@/context/FlatContext";
 import Header from "@/app/components/header/header";
 import SidePanel from "@/app/components/sidepanel/SidePanel";
+import '../i18n'
 
 export default function Home() {
     const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);

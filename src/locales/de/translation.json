@@ -1,0 +1,53 @@
+{
+  "header": {
+    "authInfo": "Eingeloggt als: ",
+    "signIn": "Anmelden / Registrieren",
+    "logout": "Abmelden"
+  },
+  "sidePanel": {
+    "menu": {
+      "myProperty": "Meine Immobilien",
+      "propertyForRent": "Immobilien zur Miete",
+      "propertyForSale": "Immobilien zum Verkauf",
+      "filters": "Filter"
+    },
+    "button": {
+      "applyFilters": "Filter anwenden",
+      "addNewProperty": "Neue Immobilie hinzufügen"
+    }
+  },
+  "map": {
+    "details": "Details"
+  },
+  "register": {
+    "register": "Registrieren",
+    "login": "Einloggen",
+    "error": {
+      "invalidEmail": "Ungültige E-Mail",
+      "invalidPassword": "Das Passwort muss mindestens 6 Zeichen lang sein"
+    },
+    "hasAccount": "Haben Sie bereits ein Konto? Einloggen",
+    "shouldRegister": "Sie haben kein Konto? Registrieren"
+  },
+  "createAdd": {
+    "title": "Neue Anzeige erstellen",
+    "form": {
+      "title": "Titel",
+      "sortDesc": "Kurzbeschreibung",
+      "description": "Beschreibung",
+      "price": "Preis",
+      "email": "E-Mail",
+      "street": "Straße",
+      "streetNum": "Hausnummer",
+      "zip": "Postleitzahl",
+      "city": "Stadt",
+      "country": "Land",
+      "forSale": "Zu verkaufen",
+      "forRent": "Zu vermieten",
+      "save": "Speichern"
+    },
+    "error": {
+      "required": "Dieses Feld ist erforderlich"
+    }
+  }
+}

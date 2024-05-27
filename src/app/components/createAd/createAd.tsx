@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
-import { useForm } from 'react-hook-form';
+import {useForm} from 'react-hook-form';
 import './createAd.scss';
-import { useAuth } from '@/context/AuthContext';
-import { GOOGLE_API_KEY } from "@/app/constants/constants";
-import { Position } from "@/app/model/model";
-import { useFlats } from "@/context/FlatContext";
+import {useAuth} from '@/context/AuthContext';
+import {GOOGLE_API_KEY} from "@/app/constants/constants";
+import {Position} from "@/app/model/model";
+import {useFlats} from "@/context/FlatContext";
+import {useTranslation} from "react-i18next";
 
-const CreateAd = ({ onClose }) => {
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+const CreateAd = ({onClose}) => {
+    const {register, handleSubmit, formState: {errors, isValid}} = useForm({
         mode: 'onChange'
     });
-    const { auth } = useAuth();
-    const { addNewFlat } = useFlats();
+    const {auth} = useAuth();
+    const {addNewFlat} = useFlats();
+    const {t} = useTranslation();
     const [message, setMessage] = useState('');
     const [pictures, setPictures] = useState([]);
     const [forSale, setForSale] = useState(false);
@@ -26,8 +28,8 @@ const CreateAd = ({ onClose }) => {
                 }
             });
             if (response.data.results && response.data.results.length > 0) {
-                const { lat, lng } = response.data.results[0].geometry.location;
-                return { lat, lng };
+                const {lat, lng} = response.data.results[0].geometry.location;
+                return {lat, lng};
             } else {
                 console.error('Geocoding failed');
                 return undefined;
@@ -96,67 +98,86 @@ const CreateAd = ({ onClose }) => {
 
     return (
         <div className="create-ad-container">
-            <h2>Create New Advertisement</h2>
+            <h2>{t("createAdd.title")}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
-                    {...register('title', { required: true })}
+                    {...register('title', {required: true})}
                     type="text"
-                    placeholder="Title"
+                    placeholder={t("createAdd.form.title")}
                 />
-                {errors.title && <p className="error">Title is required</p>}
+                {errors.title && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('shortDescription', { required: true })}
+                    {...register('shortDescription', {required: true})}
                     type="text"
-                    placeholder="Short Description"
-                />
-                {errors.shortDescription && <p className="error">Short Description is required</p>}
+                    placeholder={t("createAdd.form.shortDesc")}/>
+                {errors.shortDescription && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <textarea
-                    {...register('description', { required: true })}
-                    placeholder="Description"
+                    {...register('description', {required: true})}
+                    placeholder={t("createAdd.form.description")}
                 />
-                {errors.description && <p className="error">Description is required</p>}
+                {errors.description && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('price', { required: true })}
+                    {...register('price', {required: true})}
                     type="number"
-                    placeholder="Price"
+                    placeholder={t("createAdd.form.price")}
                 />
-                {errors.price && <p className="error">Price is required</p>}
+                {errors.price && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('email', { required: true })}
+                    {...register('email', {required: true})}
                     type="email"
-                    placeholder="Email"
+                    placeholder={t("createAdd.form.email")}
                 />
-                {errors.email && <p className="error">Email is required</p>}
+                {errors.email && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('street', { required: true })}
+                    {...register('street', {required: true})}
                     type="text"
-                    placeholder="Street"
+                    placeholder={t("createAdd.form.street")}
                 />
-                {errors.street && <p className="error">Street is required</p>}
+                {errors.street && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('streetNumber', { required: true })}
+                    {...register('streetNumber', {required: true})}
                     type="text"
-                    placeholder="Street Number"
+                    placeholder={t("createAdd.form.streetNum")}
                 />
-                {errors.streetNumber && <p className="error">Street Number is required</p>}
+                {errors.streetNumber && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('zip', { required: true })}
+                    {...register('zip', {required: true})}
                     type="text"
-                    placeholder="ZIP Code"
+                    placeholder={t("createAdd.form.zip")}
                 />
-                {errors.zip && <p className="error">ZIP Code is required</p>}
+                {errors.zip && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('city', { required: true })}
+                    {...register('city', {required: true})}
                     type="text"
-                    placeholder="City"
+                    placeholder={t("createAdd.form.city")}
                 />
-                {errors.city && <p className="error">City is required</p>}
+                {errors.city && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
-                    {...register('country', { required: true })}
+                    {...register('country', {required: true})}
                     type="text"
-                    placeholder="Country"
+                    placeholder={t("createAdd.form.country")}
                 />
-                {errors.country && <p className="error">Country is required</p>}
+                {errors.country && <p className="error">
+                    {t("createAdd.error.required")}
+                </p>}
                 <input
                     type="file"
                     accept="image/*"
@@ -169,9 +190,11 @@ const CreateAd = ({ onClose }) => {
                         checked={forSale}
                         onChange={() => setForSale(!forSale)}
                     />
-                    For Sale
+                    {forSale ? t("createAdd.form.forSale") : t("createAdd.form.forRent")}
                 </label>
-                <button type="submit" disabled={!isValid}>Save</button>
+                <button type="submit" disabled={!isValid}>
+                    {t("createAdd.form.save")}
+                </button>
             </form>
             {message && <p>{message}</p>}
         </div>

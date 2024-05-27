@@ -1,0 +1,53 @@
+{
+  "header": {
+    "authInfo": "Logged in as: ",
+    "signIn": "Sign in / Sign up",
+    "logout": "Logout"
+  },
+  "sidePanel": {
+    "menu": {
+      "myProperty": "My properties",
+      "propertyForRent": "Properties for rent",
+      "propertyForSale": "Properties for sale",
+      "filters": "Filters"
+    },
+    "button": {
+      "applyFilters": "Apply filters",
+      "addNewProperty": "Add new property"
+    }
+  },
+  "map": {
+    "details": "Details"
+  },
+  "register": {
+    "register": "Register",
+    "login": "Log in",
+    "error": {
+      "invalidEmail": "Invalid email",
+      "invalidPassword": "Password must be at least 6 characters"
+    },
+    "hasAccount": "Already have an account? Log in",
+    "shouldRegister": "Don't have an account? Register"
+  },
+  "createAdd": {
+    "title":"Create New Advertisement",
+    "form": {
+      "title": "Title",
+      "sortDesc": "Short description",
+      "description": "Description",
+      "price": "Price",
+      "email": "Email",
+      "street": "Street",
+      "streetNum": "Street number",
+      "zip": "ZIP code",
+      "city": "City",
+      "country": "Country",
+      "forSale": "For sale",
+      "forRent": "For rent",
+      "save": "Save"
+    },
+    "error": {
+      "required": "The field is required"
+    }
+  }
+}

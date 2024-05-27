@@ -5,10 +5,12 @@ import { GoogleMap, InfoWindow, Libraries, Marker, useLoadScript } from '@react-
 import { GOOGLE_API_KEY } from '@/app/constants/constants';
 import { Property } from "@/app/model/model";
 import { useFlats } from "@/context/FlatContext";
+import {useTranslation} from "react-i18next";
 
 const MapComponent = () => {
     const libraries = useMemo(() => ['places'] as Libraries, []);
     const { allFlats } = useFlats();
+    const {t} = useTranslation();
     const [mapCenter, setMapCenter] = useState({ lat: 48.208910, lng: 16.373330 });
     const [zoom, setZoom] = useState(13);
     const [activeProperty, setActiveProperty] = useState<Property | null>(null);
@@ -106,7 +108,7 @@ const MapComponent = () => {
                     onCloseClick={() => setHoveredPin(null)}
                 >
                     <div>
-                        <h4>Details</h4>
+                        <h4>{t("map.details")}</h4>
                         <p>{hoveredPin.short_description}</p>
                     </div>
                 </InfoWindow>
