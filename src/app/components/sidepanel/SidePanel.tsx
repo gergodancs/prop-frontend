@@ -5,6 +5,7 @@ import Modal from '@/app/components/modal/modal';
 import CreateAd from '@/app/components/createAd/createAd';
 import './sidePanel.scss';
 import {useTranslation} from "react-i18next";
+import EditAd from "@/app/components/editAd/editAd";
 
 const SidePanel = ({isOpen}) => {
     const {auth} = useAuth();
@@ -15,6 +16,7 @@ const SidePanel = ({isOpen}) => {
     const [showFlatsForRent, setShowFlatsForRent] = useState(false);
     const [showFlatsForSale, setShowFlatsForSale] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
+    const [editFlat, setEditFlat] = useState(null);
 
     const toggleFlatsForRent = () => {
         setShowFlatsForRent(!showFlatsForRent);
@@ -32,6 +34,11 @@ const SidePanel = ({isOpen}) => {
         setShowFlatsForRent(false);
     }
 
+    const handleEditClick = (flat) => {
+        setEditFlat(flat);
+        setModalOpen(true);
+    };
+
     return (
         <>
             <div className={`side-panel ${isOpen ? 'open' : ''}`}>
@@ -48,7 +55,8 @@ const SidePanel = ({isOpen}) => {
                                 <div>
                                     <div className="menu-item bottom-border"
                                          onClick={toggleFlatsForRent}>
-                                        <button className={showFlatsForRent ? 'active' : ''}>
+                                        <button disabled={myFlats.flatsForRent.length === 0}
+                                                className={showFlatsForRent ? 'active' : ''}>
                                             {t("sidePanel.menu.propertyForRent")}
                                         </button>
                                     </div>
@@ -56,7 +64,8 @@ const SidePanel = ({isOpen}) => {
                                         <div>
                                             {myFlats.flatsForRent.map((flat, index) => (
                                                 <div key={index}
-                                                     className="flat-item bottom-border">
+                                                     className="flat-item bottom-border"
+                                                     onClick={() => handleEditClick(flat)}>
                                                     {flat.title}
                                                 </div>
                                             ))}
@@ -64,7 +73,8 @@ const SidePanel = ({isOpen}) => {
                                     )}
                                     <div className="menu-item bottom-border"
                                          onClick={toggleFlatsForSale}>
-                                        <button className={showFlatsForSale ? 'active' : ''}>
+                                        <button disabled={myFlats.flatsForSale.length === 0}
+                                                className={showFlatsForSale ? 'active' : ''}>
                                             {t("sidePanel.menu.propertyForSale")}
                                         </button>
                                     </div>
@@ -72,7 +82,8 @@ const SidePanel = ({isOpen}) => {
                                         <div>
                                             {myFlats.flatsForSale.map((flat, index) => (
                                                 <div key={index}
-                                                     className="flat-item bottom-border">
+                                                     className="flat-item bottom-border"
+                                                     onClick={() => handleEditClick(flat)}>
                                                     {flat.title}
                                                 </div>
                                             ))}
@@ -107,7 +118,11 @@ const SidePanel = ({isOpen}) => {
             </div>
             {openModal && (
                 <Modal onClose={() => setModalOpen(false)}>
-                    <CreateAd onClose={() => setModalOpen(false)}/>
+                    {editFlat ? (
+                        <EditAd property={editFlat} onClose={() => setModalOpen(false)} />
+                    ) : (
+                        <CreateAd onClose={() => setModalOpen(false)} />
+                    )}
                 </Modal>
             )}
         </>

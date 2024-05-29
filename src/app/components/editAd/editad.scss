@@ -18,11 +18,12 @@
   width: 100%;
 }
 
-.create-ad-container input, textarea {
+.create-ad-container input {
   margin-bottom: 10px;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  width: 100%;
 }
 
 .create-ad-container button {
@@ -42,4 +43,9 @@
   color: red;
   font-size: 0.9em;
   margin-bottom: 10px;
+}
+
+.edit-ad-row {
+  display: flex;
+  gap: 15px;
 }

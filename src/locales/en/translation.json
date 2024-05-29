@@ -33,7 +33,7 @@
     "title":"Create New Advertisement",
     "form": {
       "title": "Title",
-      "sortDesc": "Short description",
+      "shortDesc": "Short description",
       "description": "Description",
       "price": "Price",
       "email": "Email",

@@ -1,20 +1,20 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import './createAd.scss';
-import {useAuth} from '@/context/AuthContext';
-import {GOOGLE_API_KEY} from "@/app/constants/constants";
-import {Position} from "@/app/model/model";
-import {useFlats} from "@/context/FlatContext";
-import {useTranslation} from "react-i18next";
+import { useAuth } from '@/context/AuthContext';
+import { GOOGLE_API_KEY } from "@/app/constants/constants";
+import { Position } from "@/app/model/model";
+import { useFlats } from "@/context/FlatContext";
+import { useTranslation } from "react-i18next";
 
-const CreateAd = ({onClose}) => {
-    const {register, handleSubmit, formState: {errors, isValid}} = useForm({
+const CreateAd = ({ onClose }) => {
+    const { register, handleSubmit, formState: { errors, isValid } } = useForm({
         mode: 'onChange'
     });
-    const {auth} = useAuth();
-    const {addNewFlat} = useFlats();
-    const {t} = useTranslation();
+    const { auth } = useAuth();
+    const { addNewFlat } = useFlats();
+    const { t } = useTranslation();
     const [message, setMessage] = useState('');
     const [pictures, setPictures] = useState([]);
     const [forSale, setForSale] = useState(false);
@@ -28,8 +28,8 @@ const CreateAd = ({onClose}) => {
                 }
             });
             if (response.data.results && response.data.results.length > 0) {
-                const {lat, lng} = response.data.results[0].geometry.location;
-                return {lat, lng};
+                const { lat, lng } = response.data.results[0].geometry.location;
+                return { lat, lng };
             } else {
                 console.error('Geocoding failed');
                 return undefined;
@@ -41,16 +41,19 @@ const CreateAd = ({onClose}) => {
     };
 
     const onSubmit = async (data: any) => {
-        const address = `${data.street} ${data.streetNumber}, ${data.city}, ${data.zip}, ${data.country}`;
+        const address = `${data.street} ${data.streetNumber}, ${data.city}, ${data.district}, ${data.country}`;
         try {
             const position = await geocodeAddress(address);
             const formData = new FormData();
 
             formData.append('title', data.title);
-            formData.append('shortDescription', data.shortDescription);
+            formData.append('shortDescription', data.shortDescription); // Change to camelCase
             formData.append('description', data.description);
             formData.append('price', data.price);
             formData.append('email', data.email);
+            formData.append('street', data.street);
+            formData.append('streetNumber', data.streetNumber);
+            formData.append('zip', data.zip);
             if (position) {
                 formData.append('position[lat]', `${position.lat}`);
                 formData.append('position[lng]', `${position.lng}`);
@@ -101,7 +104,7 @@ const CreateAd = ({onClose}) => {
             <h2>{t("createAdd.title")}</h2>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input
-                    {...register('title', {required: true})}
+                    {...register('title', { required: true })}
                     type="text"
                     placeholder={t("createAdd.form.title")}
                 />
@@ -109,21 +112,21 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('shortDescription', {required: true})}
+                    {...register('shortDescription', { required: true })} // Change to camelCase
                     type="text"
-                    placeholder={t("createAdd.form.shortDesc")}/>
+                    placeholder={t("createAdd.form.shortDesc")} />
                 {errors.shortDescription && <p className="error">
                     {t("createAdd.error.required")}
                 </p>}
                 <textarea
-                    {...register('description', {required: true})}
+                    {...register('description', { required: true })}
                     placeholder={t("createAdd.form.description")}
                 />
                 {errors.description && <p className="error">
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('price', {required: true})}
+                    {...register('price', { required: true })}
                     type="number"
                     placeholder={t("createAdd.form.price")}
                 />
@@ -131,7 +134,7 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('email', {required: true})}
+                    {...register('email', { required: true })}
                     type="email"
                     placeholder={t("createAdd.form.email")}
                 />
@@ -139,7 +142,7 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('street', {required: true})}
+                    {...register('street', { required: true })}
                     type="text"
                     placeholder={t("createAdd.form.street")}
                 />
@@ -147,7 +150,7 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('streetNumber', {required: true})}
+                    {...register('streetNumber', { required: true })}
                     type="text"
                     placeholder={t("createAdd.form.streetNum")}
                 />
@@ -155,7 +158,7 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('zip', {required: true})}
+                    {...register('zip', { required: true })}
                     type="text"
                     placeholder={t("createAdd.form.zip")}
                 />
@@ -163,7 +166,7 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('city', {required: true})}
+                    {...register('city', { required: true })}
                     type="text"
                     placeholder={t("createAdd.form.city")}
                 />
@@ -171,7 +174,7 @@ const CreateAd = ({onClose}) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('country', {required: true})}
+                    {...register('country', { required: true })}
                     type="text"
                     placeholder={t("createAdd.form.country")}
                 />
