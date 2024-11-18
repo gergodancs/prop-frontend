@@ -5,13 +5,13 @@ import { GoogleMap, InfoWindow, Libraries, Marker, useLoadScript } from '@react-
 import { GOOGLE_API_KEY } from '@/app/constants/constants';
 import { Property } from "@/app/model/model";
 import { useFlats } from "@/context/FlatContext";
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 const MapComponent = () => {
     const libraries = useMemo(() => ['places'] as Libraries, []);
     const { allFlats } = useFlats();
-    const {t} = useTranslation();
-    const [mapCenter, setMapCenter] = useState({ lat: 48.208910, lng: 16.373330 });
+    const { t } = useTranslation();
+    const [mapCenter, setMapCenter] = useState({ lat: 48.208910, lng: 16.373330 }); // Vienna coordinates as default
     const [zoom, setZoom] = useState(13);
     const [activeProperty, setActiveProperty] = useState<Property | null>(null);
     const [hoveredPin, setHoveredPin] = useState<Property | null>(null);
@@ -31,7 +31,7 @@ const MapComponent = () => {
         libraries,
     });
 
-    useEffect(() => {
+  /*   useEffect(() => {
         if (isLoaded && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -46,8 +46,7 @@ const MapComponent = () => {
                 }
             );
         }
-    }, [isLoaded]);
-
+    }, [isLoaded]); */
 
     if (loadError) {
         return <div>Error loading maps</div>;
