@@ -32,9 +32,10 @@ const MapComponent = () => {
     });
 
     useEffect(() => {
-        if (navigator.geolocation) {
+        if (isLoaded && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
+                    console.log(position, '->position f')
                     setMapCenter({
                         lat: position.coords.latitude,
                         lng: position.coords.longitude,
@@ -45,7 +46,8 @@ const MapComponent = () => {
                 }
             );
         }
-    }, []);
+    }, [isLoaded]);
+
 
     if (loadError) {
         return <div>Error loading maps</div>;
@@ -94,7 +96,7 @@ const MapComponent = () => {
             {allFlats.map((property, index) => (
                 <Marker
                     key={index}
-                    position={{ lat: +property.position.lat, lng: +property.position.lng }}
+                    position={{ lat: +property.position?.lat, lng: +property.position?.lng }}
                     icon={customIcon}
                     onMouseOver={() => handleMouseOver(property)}
                     onMouseOut={handleMouseOut}

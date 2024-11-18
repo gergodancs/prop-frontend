@@ -7,6 +7,7 @@ import { GOOGLE_API_KEY } from "@/app/constants/constants";
 import { Position } from "@/app/model/model";
 import { useFlats } from "@/context/FlatContext";
 import { useTranslation } from "react-i18next";
+import {createNewPropertyDto, geocodeAddress} from "@/app/components/createAd/helper";
 
 const CreateAd = ({ onClose }) => {
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -15,78 +16,32 @@ const CreateAd = ({ onClose }) => {
     const { auth } = useAuth();
     const { addNewFlat } = useFlats();
     const { t } = useTranslation();
+
     const [message, setMessage] = useState('');
     const [pictures, setPictures] = useState([]);
     const [forSale, setForSale] = useState(false);
 
-    const geocodeAddress = async (address: string): Promise<Position | undefined> => {
-        try {
-            const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json`, {
-                params: {
-                    address,
-                    key: GOOGLE_API_KEY
-                }
-            });
-            if (response.data.results && response.data.results.length > 0) {
-                const { lat, lng } = response.data.results[0].geometry.location;
-                return { lat, lng };
-            } else {
-                console.error('Geocoding failed');
-                return undefined;
-            }
-        } catch (error) {
-            console.error('Error geocoding address:', error);
-            return undefined;
-        }
-    };
-
     const onSubmit = async (data: any) => {
         const address = `${data.street} ${data.streetNumber}, ${data.city}, ${data.district}, ${data.country}`;
         try {
+
+              if (!auth) {
+                            setMessage('You are not logged in.');
+                            return;
+                        }
+
             const position = await geocodeAddress(address);
-            const formData = new FormData();
-
-            formData.append('title', data.title);
-            formData.append('shortDescription', data.shortDescription); // Change to camelCase
-            formData.append('description', data.description);
-            formData.append('price', data.price);
-            formData.append('email', data.email);
-            formData.append('street', data.street);
-            formData.append('streetNumber', data.streetNumber);
-            formData.append('zip', data.zip);
-            if (position) {
-                formData.append('position[lat]', `${position.lat}`);
-                formData.append('position[lng]', `${position.lng}`);
-            } else {
-                formData.append('position[lat]', `0`);
-                formData.append('position[lng]', `0`);
-            }
-            if (data.district) {
-                formData.append('district', data.district);
-            }
-            formData.append('city', data.city);
-            formData.append('country', data.country);
-
-            pictures.forEach((picture) => {
-                formData.append('pictures', picture);
-            });
-
-            if (!auth) {
-                setMessage('You are not logged in.');
-                return;
-            }
+            const dto = createNewPropertyDto(data, position, pictures);
 
             const endpoint = forSale ? 'sale' : 'rent';
 
-            const response = await axios.post(`http://localhost:5000/flats/${endpoint}`, formData, {
+            const response = await axios.post(`http://localhost:5000/flats/${endpoint}`, dto, {
                 headers: {
                     authorization: `Bearer ${auth.token}`,
                     'Content-Type': 'multipart/form-data'
                 }
             });
-
             addNewFlat(response.data);
-
             setMessage('Advertisement created successfully!');
             onClose();
         } catch (err) {
@@ -158,9 +113,9 @@ const CreateAd = ({ onClose }) => {
                     {t("createAdd.error.required")}
                 </p>}
                 <input
-                    {...register('zip', { required: true })}
+                    {...register('district', { required: true })}
                     type="text"
-                    placeholder={t("createAdd.form.zip")}
+                    placeholder={t("createAdd.form.district")}
                 />
                 {errors.zip && <p className="error">
                     {t("createAdd.error.required")}

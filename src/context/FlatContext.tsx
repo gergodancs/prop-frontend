@@ -27,27 +27,35 @@ export const FlatProvider = ({ children }: { children: ReactNode }) => {
     const [flatsForRent, setFlatsForRent] = useState<Array<Property>>([]);
 
     useEffect(() => {
-        axios.get('http://localhost:5000/flats/all')
-            .then(response => setAllFlats(response.data));
-    }, [myFlats]);
-
-    useEffect(() => {
         if (auth?.token) {
-            const fetchFlats = async () => {
-                try {
-                    const response = await api.get('/flats/user');
-                    setMyFlats(response.data ?? []);
-                } catch (error) {
-                    console.error('Error fetching flats:', error);
-                }
-            };
-
-            void fetchFlats();
+         void fetchMyFlats();
         }
+        void fetchAllFlat();
     }, [auth]);
 
+    const fetchAllFlat = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/flats/all');
+            setAllFlats(response.data)
+            }
+        catch(err){
+            console.log(err)
+            }
+        }
+
+    const fetchMyFlats = async () => {
+        try {
+            const response = await api.get('/flats/user');
+            setMyFlats(response.data ?? []);
+             }
+         catch (error) {
+             console.error('Error fetching flats:', error);
+             }
+        }
+
     const addNewFlat = (newFlat: Property) => {
-        setAllFlats(prevFlats => [...prevFlats, newFlat]);
+        fetchAllFlat();
+        fetchMyFlats();
     };
 
     return (

@@ -1,4 +1,4 @@
-import {createContext, ReactNode, useContext, useState} from 'react';
+import { createContext, ReactNode, useContext, useState, useEffect } from 'react';
 
 type AuthState = {
     user: string;
@@ -14,22 +14,30 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [auth, setAuth] = useState<AuthState>(() => {
-        const token = localStorage.getItem('token');
-        const user = localStorage.getItem('user');
-        return token && user ? { user, token } : null;
-    });
+    const [auth, setAuth] = useState<AuthState>(null);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            setAuth(token && user ? { user, token } : null);
+        }
+    }, []);
 
     const login = (user: string, token: string) => {
         setAuth({ user, token });
-        localStorage.setItem('user', user);
-        localStorage.setItem('token', token);
+        if (typeof window !== 'undefined') {
+            localStorage.setItem('user', user);
+            localStorage.setItem('token', token);
+        }
     };
 
     const logout = () => {
         setAuth(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+        if (typeof window !== 'undefined') {
+            localStorage.removeItem('user');
+            localStorage.removeItem('token');
+        }
     };
 
     return (
