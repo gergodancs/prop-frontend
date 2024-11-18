@@ -110,7 +110,7 @@ const SidePanel = ({isOpen}) => {
                                 {t("sidePanel.button.applyFilters")}
                             </button>
                         </>}
-                    <button onClick={() => setModalOpen(true)}
+                    <button onClick={() => {setEditFlat(null), setModalOpen(true)}}
                             className="add-flat-button w-100 center">
                         {t("sidePanel.button.addNewProperty")}
                     </button>
