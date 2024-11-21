@@ -1,11 +1,12 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { GoogleMap, InfoWindow, Libraries, Marker, useLoadScript } from '@react-google-maps/api';
 import { GOOGLE_API_KEY } from '@/app/constants/constants';
 import { Property } from "@/app/model/model";
 import { useFlats } from "@/context/FlatContext";
 import { useTranslation } from "react-i18next";
+import PropertyInfo from './InfoWindow';
 
 const MapComponent = () => {
     const libraries = useMemo(() => ['places'] as Libraries, []);
@@ -31,23 +32,6 @@ const MapComponent = () => {
         libraries,
     });
 
-  /*   useEffect(() => {
-        if (isLoaded && navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    console.log(position, '->position f')
-                    setMapCenter({
-                        lat: position.coords.latitude,
-                        lng: position.coords.longitude,
-                    });
-                },
-                (error) => {
-                    console.error("Error getting user location:", error);
-                }
-            );
-        }
-    }, [isLoaded]); */
-
     if (loadError) {
         return <div>Error loading maps</div>;
     }
@@ -65,6 +49,7 @@ const MapComponent = () => {
     };
 
     const handleClick = (property: Property) => {
+        setHoveredPin(null);
         setActiveProperty(property);
         setMapCenter({ lng: +property.position.lng, lat: +property.position.lat });
         setZoom(19);
@@ -116,26 +101,9 @@ const MapComponent = () => {
             )}
 
             {activeProperty && (
-                <InfoWindow
-                    position={{ lat: +activeProperty.position.lat, lng: +activeProperty.position.lng }}
-                    onCloseClick={() => onDetailsClose()}
-                >
-                    <div>
-                        <h4>{activeProperty.title}</h4>
-                        <p>{activeProperty.description}</p>
-                        <p>Price: {activeProperty.price}</p>
-                        <p>Contact: {activeProperty.email}</p>
-                        <div className="flex">
-                            {activeProperty?.pictures?.map((picture, index) => (
-                                <img
-                                    key={index}
-                                    src={`http://localhost:5000${picture.url}`}
-                                    alt={picture.description}
-                                    style={{ width: '250px', height: '200px', margin: '5px' }}
-                                />
-                            ))}
-                        </div>
-                    </div>
+                <InfoWindow position={{ lat: +activeProperty.position.lat, lng: +activeProperty.position.lng }}
+                onCloseClick={() => onDetailsClose()}>
+                    <PropertyInfo activeProperty={activeProperty}/>
                 </InfoWindow>
             )}
         </GoogleMap>
